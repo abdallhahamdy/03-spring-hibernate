@@ -8,8 +8,9 @@ import com.luv2code.hibernate.demo.entity.Course;
 import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
 import com.luv2code.hibernate.demo.entity.Review;
+import com.luv2code.hibernate.demo.entity.Student;
 
-public class GetCourseAndReviewsDemo {
+public class CreateCourseAndStudentsDemo {
 
 	public static void main(String[] args) {
 
@@ -20,6 +21,7 @@ public class GetCourseAndReviewsDemo {
 								.addAnnotatedClass(InstructorDetail.class)
 								.addAnnotatedClass(Course.class)
 								.addAnnotatedClass(Review.class)
+								.addAnnotatedClass(Student.class)
 								.buildSessionFactory();
 		
 		// create session
@@ -29,16 +31,28 @@ public class GetCourseAndReviewsDemo {
 			
 			// start a transaction
 			session.beginTransaction();
-
-			// get the course
-			int theId = 10;
-			Course tempCourse = session.get(Course.class, theId);
+						
+			// create a course
+			Course tempCourse = new Course("Pacman - How To Score One Million Points");
+						
+			// save the course
+			System.out.println("\nSaving the course ...");
+			session.save(tempCourse);
+			System.out.println("Saved the course: " + tempCourse);
 			
-			// print the course
-			System.out.println(tempCourse);
+			// create the students
+			Student tempStudent1 = new Student("John", "Doe", "john@luv2code.com");
+			Student tempStudent2 = new Student("Mary", "Public", "mary@luv2code.com");
+						
+			// add students to the course
+			tempCourse.addStudent(tempStudent1);
+			tempCourse.addStudent(tempStudent2);
 			
-			// print the course reviews
-			System.out.println(tempCourse.getReviews());
+			// save the students
+			System.out.println("\nSaving students ...");
+			session.save(tempStudent1);
+			session.save(tempStudent2);
+			System.out.println("Saved students: " + tempCourse.getStudents());
 			
 			// commit transaction
 			session.getTransaction().commit();

@@ -8,8 +8,9 @@ import com.luv2code.hibernate.demo.entity.Course;
 import com.luv2code.hibernate.demo.entity.Instructor;
 import com.luv2code.hibernate.demo.entity.InstructorDetail;
 import com.luv2code.hibernate.demo.entity.Review;
+import com.luv2code.hibernate.demo.entity.Student;
 
-public class DeleteCourseAndReviewsDemo {
+public class GetCoursesForMaryDemo {
 
 	public static void main(String[] args) {
 
@@ -20,6 +21,7 @@ public class DeleteCourseAndReviewsDemo {
 								.addAnnotatedClass(InstructorDetail.class)
 								.addAnnotatedClass(Course.class)
 								.addAnnotatedClass(Review.class)
+								.addAnnotatedClass(Student.class)
 								.buildSessionFactory();
 		
 		// create session
@@ -29,21 +31,14 @@ public class DeleteCourseAndReviewsDemo {
 			
 			// start a transaction
 			session.beginTransaction();
-
-			// get the course
-			int theId = 10;
-			Course tempCourse = session.get(Course.class, theId);
+				
+			// get the student from database
+			int studentId = 1;
+			Student tempStudent = session.get(Student.class, studentId);
 			
-			// print the course
-			System.out.println("Deleting the course ... ");
-			System.out.println(tempCourse);
-			
-			// print the course reviews
-			System.out.println(tempCourse.getReviews());
-			
-			// delete the course
-			session.delete(tempCourse);
-			
+			System.out.println("\nLoaded student: " + tempStudent);
+			System.out.println("Courses: " + tempStudent.getCourses());		
+						
 			// commit transaction
 			session.getTransaction().commit();
 			
